@@ -40,7 +40,7 @@ programs.nix-ld = {
 ## run
 
 ```bash
-nix run github:aki-ph-chem/pgopher-nixos#pgopher
-nix run github:aki-ph-chem/pgopher-nixos#pgo
-nix run github:aki-ph-chem/pgopher-nixos#tabslave
+nix run github:aki-ph-chem/pgopher-nixos/main#pgopher
+nix run github:aki-ph-chem/pgopher-nixos/main#pgo
+nix run github:aki-ph-chem/pgopher-nixos/main#tabslave
 ```
