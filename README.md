@@ -1,6 +1,18 @@
 # PGOPHER for NixOS
 
-## requirements
+<!-- here desktop screen shot image -->
+
+## About
+
+PGOPHER is a program which is used as simulation & analysis of spectrum. 
+
+PGOPHER with Nix!
+
+based on original page: https://pgopher.chm.bris.ac.uk/ 
+
+## Usage Instructions
+
+### requirements
 
 Needs `nix-ld` config like below:
 
@@ -37,10 +49,16 @@ programs.nix-ld = {
 };
 ```
 
-## run
+### Running Ad-hoc 
 
 ```bash
 nix run github:aki-ph-chem/pgopher-nixos/main#pgopher
 nix run github:aki-ph-chem/pgopher-nixos/main#pgo
 nix run github:aki-ph-chem/pgopher-nixos/main#tabslave
 ```
+
+### Intalling the applications on your system (Optional)
+
+#### Intall sith nix-profile
+
+#### Intall on NixOS/Home Manager
