@@ -1,6 +1,6 @@
 # PGOPHER for NixOS
 
-<!-- here desktop screen shot image -->
+<img src="./figs/pgopher.png"/>
 
 ## About
 
