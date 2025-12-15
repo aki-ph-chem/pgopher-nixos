@@ -4,11 +4,12 @@
 
 ## About
 
-PGOPHER is a program which is used as simulation & analysis of spectrum. 
-
 PGOPHER with Nix!
 
-based on original page: https://pgopher.chm.bris.ac.uk/ 
+PGOPHER is a program which is used as simulation & analysis of spectrum. 
+
+This package is based on original [PGOPHER](https://pgopher.chm.bris.ac.uk/) 
+and wrap executable binary with flake.
 
 ## Usage Instructions
 
@@ -57,8 +58,4 @@ nix run github:aki-ph-chem/pgopher-nixos/main#pgo
 nix run github:aki-ph-chem/pgopher-nixos/main#tabslave
 ```
 
-### Intalling the applications on your system (Optional)
-
-#### Intall sith nix-profile
-
-#### Intall on NixOS/Home Manager
+### Intall on NixOS/Home Manager
