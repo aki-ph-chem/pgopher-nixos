@@ -33,7 +33,7 @@
           # prepare directory
           mkdir -p "$out/bin"
           mkdir -p "$out/share/applications"
-          mkdir -p "$out/share/icons/hicolor/scalable/apps"
+          mkdir -p "$out/share/icons/hicolor/64x64/apps"
 
           # executable binary
           cp pgopher "$out/bin/"
@@ -41,8 +41,8 @@
           cp tabslave "$out/bin/"
 
           # desktop entry & icon file
-          cp ${./pgopher.desktop} "$out/share/applications/"
-          cp ${./pgopher.gif} "$out/share/icons/hicolor/scalable/apps/"
+          cp ${./pgopher.desktop} "$out/share/applications/pgopher.desktop"
+          cp ${./pgopher.png} "$out/share/icons/hicolor/64x64/apps/pgopher.png"
         '';
 
       };
