@@ -42,7 +42,7 @@
 
           # desktop entry & icon file
           cp ${./pgopher.desktop} "$out/share/applications/"
-          cp ${./pgopher.gif} "$out/share/icons/hicolor/64x64/apps/"
+          cp ${./pgopher.gif} "$out/share/icons/hicolor/scalable/apps/"
         '';
 
       };
