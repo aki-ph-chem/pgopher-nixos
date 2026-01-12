@@ -59,3 +59,70 @@ nix run github:aki-ph-chem/pgopher-nixos/main#tabslave
 ```
 
 ### Intall on NixOS/Home Manager
+
+<details>
+<summary>Install on NixOS</summary>
+
+```nix
+{
+  inputs = {
+    # ...
+    pgopher = {
+      url = "github:aki-ph-chem/pgopher-nixos?ref=fix/desktop-entroy";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+
+  outputs = inputs @ {
+    pgopher
+    ...
+  }: {
+    nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = {inherit inputs;};
+      modules = [
+        # ...
+        {
+          environment.systemPackages = [pgopher.packages.x86_64-linux.default];
+        }
+      ];
+    };
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Install with Home Manager</summary>
+
+```nix
+{
+  inputs = {
+    pgopher = {
+      url = "github:aki-ph-chem/pgopher-nixos?ref=fix/desktop-entroy";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # ...
+  };
+
+  outputs = inputs @ {
+    pgopher
+    ...
+  }: {
+    homeConfigurations.my-user = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      extraSpecialArgs = {inherit inputs;};
+      modules = [
+        # ...
+        {
+          home.packages = [pgopher.packages.x86_64-linux.default];
+        }
+      ];
+    };
+  }
+}
+```
+
+</details>
