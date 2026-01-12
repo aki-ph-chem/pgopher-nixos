@@ -4,5 +4,5 @@ Type=Application
 Name=pgopher
 Comment="PGOPHER, a program for rotational, vibrational and electronic spectra"
 Exec=pgopher
-Icon=pgopher.gif
+Icon=pgopher
 Categories=Science;

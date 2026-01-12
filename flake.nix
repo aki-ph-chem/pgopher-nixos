@@ -41,8 +41,8 @@
           cp tabslave "$out/bin/"
 
           # desktop entry & icon file
-          cp ${./pgopher.desktop} "$out/share/applications/"
-          cp ${./pgopher.gif} "$out/share/icons/hicolor/64x64/apps/"
+          cp ${./pgopher.desktop} "$out/share/applications/pgopher.desktop"
+          cp ${./pgopher.png} "$out/share/icons/hicolor/64x64/apps/pgopher.png"
         '';
 
       };
