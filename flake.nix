@@ -33,7 +33,7 @@
           # prepare directory
           mkdir -p "$out/bin"
           mkdir -p "$out/share/applications"
-          mkdir -p "$out/share/icons/hicolor/64x64/apps"
+          mkdir -p "$out/share/icons/hicolor/scalable/apps"
 
           # executable binary
           cp pgopher "$out/bin/"
