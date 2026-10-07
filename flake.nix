@@ -23,6 +23,7 @@
         nativeBuildInputs = [
           pkgs.gnutar
           pkgs.makeWrapper
+          pkgs.perl
         ];
 
         unpackPhase = ''
@@ -43,6 +44,32 @@
           # desktop entry & icon file
           cp ${./pgopher.desktop} "$out/share/applications/pgopher.desktop"
           cp ${./pgopher.png} "$out/share/icons/hicolor/64x64/apps/pgopher.png"
+        '';
+
+        postFixup = ''
+          # Workaround for NixOS: the prebuilt FPC (2018) binaries read
+          # /etc/timezone at startup; NixOS does not provide it as a regular
+          # file, and the failed read causes a nil dereference -> SIGSEGV
+          # (runtime error 216) before any argument is processed.
+          # Same-length path patch redirects the read to /tmp/timezone. The
+          # wrapper below creates /tmp/timezone on first run, deriving the zone
+          # name from /etc/localtime at runtime (falling back to UTC). The
+          # actual timezone is resolved by the program via /etc/localtime, so
+          # the file content only needs to be a well-formed zone name; the
+          # NixOS build sandbox has no timezone info (TZ=UTC, no /etc/localtime)
+          # so this must be done at runtime, not build time.
+          for b in pgo pgopher tabslave; do
+            perl -pi -e 's{/etc/timezone}{/tmp/timezone}g' "$out/bin/$b"
+            # self-check: fail the build if the PGOPHER binary changed and
+            # the string is no longer present (silent no-op patch would ship
+            # a crashing binary on the next version bump)
+            grep -aq '/tmp/timezone' "$out/bin/$b" || {
+              echo "error: '/etc/timezone' string not found in $b - PGOPHER binary changed; update this patch"
+              exit 1
+            }
+            wrapProgram "$out/bin/$b" \
+              --run 'if [ ! -f /tmp/timezone ]; then tz=$(readlink -f /etc/localtime 2>/dev/null); case $tz in */zoneinfo/*) tz=''${tz#*/zoneinfo/};; *) tz=UTC;; esac; printf "%s\n" "$tz" > /tmp/timezone 2>/dev/null || true; fi'
+          done
         '';
 
       };
