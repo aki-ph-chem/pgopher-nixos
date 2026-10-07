@@ -11,6 +11,27 @@ PGOPHER is a program which is used as simulation & analysis of spectrum.
 This package is based on original [PGOPHER](https://pgopher.chm.bris.ac.uk/) 
 and wrap executable binary with flake.
 
+## Applied patches
+
+The upstream PGOPHER binaries are prebuilt with Free Pascal (fpc 3.3.1, 2018).
+At startup the FPC runtime initializes the timezone by reading `/etc/timezone`
+(a plain-text zone-name file). Modern NixOS does not provide `/etc/timezone` as
+a regular file, and the failed read causes a nil dereference in the FPC RTL —
+the binary dies with **SIGSEGV (runtime error 216)** before any argument is
+processed. This affects every user of this flake on NixOS, not a specific
+machine.
+
+To work around this, the build applies a same-length patch to `pgo`, `pgopher`,
+and `tabslave`, replacing the string `/etc/timezone` with `/tmp/timezone`, and
+wraps each binary so that `/tmp/timezone` exists at runtime. The actual timezone
+is still resolved via `/etc/localtime`, so the file content only needs to be a
+well-formed zone name. The patch has a build-time self-check that fails if the
+string disappears in a future upstream tarball (so a silently unpatched,
+crashing binary is never shipped).
+
+See [issue #5](https://github.com/aki-ph-chem/pgopher-nixos/issues/5) for the
+full investigation.
+
 ## Usage Instructions
 
 ### requirements
