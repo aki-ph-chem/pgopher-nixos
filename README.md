@@ -23,11 +23,14 @@ machine.
 
 To work around this, the build applies a same-length patch to `pgo`, `pgopher`,
 and `tabslave`, replacing the string `/etc/timezone` with `/tmp/timezone`, and
-wraps each binary so that `/tmp/timezone` exists at runtime. The actual timezone
-is still resolved via `/etc/localtime`, so the file content only needs to be a
-well-formed zone name. The patch has a build-time self-check that fails if the
-string disappears in a future upstream tarball (so a silently unpatched,
-crashing binary is never shipped).
+wraps each binary so that `/tmp/timezone` exists at runtime. The wrapper derives
+the zone name from `/etc/localtime` on first run (falling back to `UTC`), so no
+locale is hardcoded. The actual timezone is still resolved by the program via
+`/etc/localtime`, so the file content only needs to be a well-formed zone name.
+This resolution happens at runtime rather than build time because the NixOS build
+sandbox has no timezone information (`TZ=UTC`, no `/etc/localtime`). The patch
+has a build-time self-check that fails if the string disappears in a future
+upstream tarball (so a silently unpatched, crashing binary is never shipped).
 
 See [issue #5](https://github.com/aki-ph-chem/pgopher-nixos/issues/5) for the
 full investigation.
